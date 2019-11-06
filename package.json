@@ -2,10 +2,18 @@
   "name": "moments",
   "version": "0.1.0",
   "private": true,
+  "license": "ISC",
   "dependencies": {
+    "feather-icons": "^4.24.1",
+    "firebase": "^7.2.3",
+    "query-string": "^6.8.3",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "react-scripts": "3.2.0"
+    "react-feather": "^2.0.3",
+    "react-firebaseui": "^4.0.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.2.0",
+    "react-select": "^3.0.8"
   },
   "scripts": {
     "start": "react-scripts start",
