@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ListItem from "./components/ListItem";
+import ListItem from "./ListItem";
 import { ArrowDown, ArrowUp, Search } from "react-feather";
 
 const compareCount = (a, b) => a.count - b.count;

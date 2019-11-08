@@ -6,26 +6,26 @@ export default ({ title }) => (
   <>
     <header>
       <h1>Amazing {title}</h1>
-      <Link to="/account">
+      <Link to="/account" className="header-link">
         <User />
       </Link>
     </header>
     <nav>
-      <NavLink to="/calendar">
+      <NavLink exact to="/" className="nav-link" activeClassName="active">
         <Calendar />
-        Moments
+        <span className="nav-link-title">Moments</span>
       </NavLink>
-      <NavLink to="/people">
+      <NavLink to="/people" className="nav-link" activeClassName="active">
         <Users />
-        People
+        <span className="nav-link-title">People</span>
       </NavLink>
-      <NavLink to="/places">
+      <NavLink to="/places" className="nav-link" activeClassName="active">
         <MapPin />
-        Places
+        <span className="nav-link-title">Places</span>
       </NavLink>
-      <NavLink to="/activities">
+      <NavLink to="/activities" className="nav-link" activeClassName="active">
         <Tag />
-        Activities
+        <span className="nav-link-title">Activities</span>
       </NavLink>
     </nav>
   </>

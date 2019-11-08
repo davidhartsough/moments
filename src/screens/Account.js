@@ -12,7 +12,7 @@ export default function Account({ signOut }) {
     <main>
       <header>
         <h1>Account</h1>
-        <button onClick={close}>
+        <button onClick={close} className="close">
           <X />
         </button>
       </header>
@@ -24,8 +24,9 @@ export default function Account({ signOut }) {
         )}
       </section>
       <footer>
-        <button onClick={signOut}>
-          <LogOut /> Sign out
+        <button onClick={signOut} className="primary-action" id="sign-out">
+          <LogOut size={18} />
+          <span className="primary-action-text">Sign out</span>
         </button>
       </footer>
     </main>

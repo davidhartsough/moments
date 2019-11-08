@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CreatableSelect from "react-select/creatable";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { X, Check, Calendar, Users, MapPin, Tag } from "react-feather";
 
 const personOptions = [];
@@ -8,8 +8,6 @@ const placeOptions = [];
 const tagOptions = [];
 
 export default function NewMoment() {
-  const history = useHistory();
-  const close = () => history.goBack();
   const [date, setDate] = useState(null);
   const [people, setPeople] = useState(null);
   const [places, setPlaces] = useState(null);
@@ -29,9 +27,9 @@ export default function NewMoment() {
     <main>
       <header>
         <h1>New Moment</h1>
-        <button onClick={close}>
+        <Link to="/" className="header-link">
           <X />
-        </button>
+        </Link>
       </header>
       <section>
         <div className="form-group">
@@ -78,8 +76,9 @@ export default function NewMoment() {
         </div>
       </section>
       <footer>
-        <button onClick={addNewMoment}>
-          <Check /> Save
+        <button onClick={addNewMoment} className="primary-action">
+          <Check size={18} />
+          <span className="primary-action-text">Save</span>
         </button>
       </footer>
     </main>

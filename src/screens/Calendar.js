@@ -85,7 +85,14 @@ export default function Calendar() {
     }
   }
   if (moments === false) {
-    return <p>Loading...</p>;
+    return (
+      <main>
+        <Header title="Moments" />
+        <section>
+          <p>Loading...</p>
+        </section>
+      </main>
+    );
   }
   return (
     <main>
@@ -100,12 +107,14 @@ export default function Calendar() {
           <div className="selects">
             <select value={month} onChange={handleMonthChange}>
               {monthOptions.map((mo, i) => (
-                <option value={i}>{mo}</option>
+                <option key={`mo-${mo}-${i}`} value={i}>
+                  {mo}
+                </option>
               ))}
             </select>
             <select value={year} onChange={handleYearChange}>
               {years.map(yo => (
-                <option>{yo}</option>
+                <option key={`yo-${yo}`}>{yo}</option>
               ))}
             </select>
           </div>
@@ -121,9 +130,10 @@ export default function Calendar() {
           <p>No moments found for this month.</p>
         )}
       </section>
-      <footer>
-        <Link to="/new">
-          <Plus /> New
+      <footer className="main-footer">
+        <Link to="/new" className="primary-action" id="add-new">
+          <Plus size={18} />
+          <span className="primary-action-text">New</span>
         </Link>
       </footer>
     </main>
