@@ -1,0 +1,37 @@
+#splash-bg {
+  background: radial-gradient(
+    circle closest-corner at center 25%,
+    hsl(226, 82%, 71%) 5%,
+    hsl(215, 85%, 60%) 60%,
+    hsl(208, 85%, 51%) 100%
+  );
+}
+#splash {
+  text-align: center;
+  height: 100vh;
+  box-sizing: border-box;
+  padding-top: 5vw;
+  background: radial-gradient(
+    circle closest-corner at center 25%,
+    hsl(226, 82%, 71%) 5%,
+    hsl(215, 85%, 60%) 60%,
+    hsl(208, 85%, 51%) 100%
+  );
+  background: linear-gradient(
+    hsla(210, 100%, 100%, 0) 50%,
+    hsla(210, 100%, 50%, 0.9)
+  );
+  color: #fff;
+}
+#splash-logo {
+  width: 80%;
+  min-width: 300px;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  font-size: 97px;
+  font-weight: 200;
+  fill: #fff;
+}
+#splash-logo path {
+  fill: transparent;
+}

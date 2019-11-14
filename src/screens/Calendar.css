@@ -1,0 +1,33 @@
+.month-picker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+select {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica Neue, sans-serif;
+  outline: none;
+  height: 2rem;
+  padding: 0 0.5rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  box-sizing: border-box;
+  font-weight: 400;
+  width: 7rem;
+}
+.month-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0.5rem;
+}
+.month-nav.disabled {
+  color: #eee;
+}
+.month-list {
+  margin-bottom: 8rem;
+}

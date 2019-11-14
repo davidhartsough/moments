@@ -1,0 +1,8 @@
+#account-profile {
+  text-align: center;
+}
+#profile-name {
+  margin: 1rem;
+  font-size: 1.5rem;
+  font-weight: 400;
+}

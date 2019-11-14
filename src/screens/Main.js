@@ -1,9 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import CalendarScreen from "./Calendar";
-// import PeopleScreen from "./People";
-// import PlacesScreen from "./Places";
-// import TagsScreen from "./Tags";
 import MomentsScreen from "./Moments";
 import NewMomentScreen from "./NewMoment";
 import AccountScreen from "./Account";

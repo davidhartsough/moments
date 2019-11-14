@@ -1,6 +1,7 @@
 import React from "react";
 import qs from "query-string";
 import { Link } from "react-router-dom";
+import "./ListItem.css";
 
 export default ({ item, type }) => (
   <Link

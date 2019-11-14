@@ -1,0 +1,24 @@
+.moment {
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-radius: 0.25rem;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+.row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.row:last-child {
+  margin-bottom: 0;
+}
+.row-icon {
+  flex: 0 0 1.5rem;
+}
+.row-text {
+  margin-left: 1rem;
+  flex: 1 1 auto;
+}

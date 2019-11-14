@@ -1,17 +1,24 @@
 import React from "react";
 import firebase from "firebase/app";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import Splash from "./components/Splash";
+import "./SignIn.css";
 
-export default function SignIn({ signIn }) {
+export default function SignIn() {
   const uiConfig = {
     callbacks: {
       signInSuccessWithAuthResult: function(authResult) {
-        console.log(authResult);
         const { user } = authResult;
         const { isNewUser } = authResult.additionalUserInfo;
-        signIn();
-        return true;
-        // return false;
+        console.group("sign in success");
+        console.log(authResult);
+        console.log(user);
+        console.log("uid: ", user.uid);
+        console.log("displayName: ", user.displayName);
+        console.log("isNewUser: ", isNewUser);
+        console.groupEnd();
+        // return true;
+        return false;
       }
     },
     signInOptions: [
@@ -22,15 +29,14 @@ export default function SignIn({ signIn }) {
     ]
   };
   return (
-    <div id="sign-in">
-      <h1>moments</h1>
-      <h2>Sign in</h2>
-      <div>
+    <Splash>
+      <h2 id="sign-in-title">Sign in</h2>
+      <div id="sign-in">
         <StyledFirebaseAuth
           uiConfig={uiConfig}
           firebaseAuth={firebase.auth()}
         />
       </div>
-    </div>
+    </Splash>
   );
 }

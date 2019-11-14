@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { LogOut, X } from "react-feather";
+import { X } from "react-feather";
+import PageLoader from "./components/PageLoader";
+import { getProfile } from "../store";
+import "./Account.css";
 
 export default function Account({ signOut }) {
   const history = useHistory();
   const close = () => history.goBack();
-  const profile = {
-    displayName: "Sasha"
-  };
+  const [profile, setProfile] = useState(false);
+  useEffect(() => {
+    setProfile(getProfile());
+  }, []);
+  if (profile === false) return <PageLoader title="Account" />;
   return (
     <main>
       <header>
@@ -16,17 +21,13 @@ export default function Account({ signOut }) {
           <X />
         </button>
       </header>
-      <section>
-        {!!profile.displayName ? (
-          <h2>The Amazing {profile.displayName}.</h2>
-        ) : (
-          <p>This is you. You are "Steve".</p>
-        )}
+      <section id="account-profile">
+        <p>You are currently logged in as:</p>
+        <h2 id="profile-name">The Amazing {profile.name}</h2>
       </section>
       <footer>
         <button onClick={signOut} className="primary-action" id="sign-out">
-          <LogOut size={18} />
-          <span className="primary-action-text">Sign out</span>
+          Sign out
         </button>
       </footer>
     </main>

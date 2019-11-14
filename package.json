@@ -8,6 +8,7 @@
     "firebase": "^7.2.3",
     "query-string": "^6.8.3",
     "react": "^16.11.0",
+    "react-datepicker": "^2.9.6",
     "react-dom": "^16.11.0",
     "react-feather": "^2.0.3",
     "react-firebaseui": "^4.0.0",

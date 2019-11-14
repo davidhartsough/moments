@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import List from "./List";
+import Loader from "./Loader";
+import { getDocs } from "../../store";
 
 function DataList({ data, plural, singular }) {
-  if (data === false) {
-    return <p>Loading bud.</p>;
-  }
+  if (data === false) return <Loader />;
+  if (!data) return <p className="empty">Sorry, no {plural} here yet.</p>;
   if (!data.length) {
     return (
-      <p>
+      <p className="empty">
         No {plural} here yet. Add moments with {plural} to see them here.
       </p>
     );
@@ -19,17 +20,8 @@ function DataList({ data, plural, singular }) {
 export default function ListPage({ plural, singular }) {
   const [data, setData] = useState(false);
   useEffect(() => {
-    /*
-    CREATE an abstraction... db.get(plural)
-    // if (shouldFetch[plural]) { ... }
-    db.collection(plural)
-      .orderBy("name")
-      .get()
-      .then(qss => setData(qss.docs))
-      .catch(err => console.error("Error getting documents: ", err));
-    */
-    setData([]);
-  }, []);
+    getDocs(plural).then(docs => setData(docs));
+  }, [plural]);
   return (
     <main>
       <Header title={plural} />
