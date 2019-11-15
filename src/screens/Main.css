@@ -8,7 +8,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 1rem;
   background-color: #198bed;
   position: fixed;
   left: 0;
@@ -36,14 +36,15 @@ h3 {
 .header-link,
 .close,
 .go-back {
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #fff;
   text-decoration: none;
   outline: none;
+  border-radius: 100%;
 }
 .close,
 .go-back {
@@ -56,6 +57,11 @@ h3 {
 .go-back {
   margin-right: 1rem;
 }
+.header-link:hover,
+.close:hover,
+.go-back:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
 nav {
   background-color: #f4f5f6;
   display: flex;
@@ -67,6 +73,7 @@ nav {
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 1;
 }
 .nav-link {
   font-size: 0.875rem;
@@ -80,6 +87,9 @@ nav {
   color: #444;
   font-weight: 500;
   height: 2.5rem;
+}
+.nav-link:hover {
+  color: #0a4376;
 }
 .nav-link-title {
   letter-spacing: 0.025rem;
@@ -131,6 +141,9 @@ footer {
 #sign-out {
   background-color: #eee;
   color: #000;
+}
+#sign-out:hover {
+  background-color: #ddd;
 }
 .empty {
   margin-top: 2rem;

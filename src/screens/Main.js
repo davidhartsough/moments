@@ -5,6 +5,7 @@ import MomentsScreen from "./Moments";
 import NewMomentScreen from "./NewMoment";
 import AccountScreen from "./Account";
 import ListPage from "./components/ListPage";
+import EditMomentScreen from "./EditMoment";
 import "./Main.css";
 
 export default ({ signOut }) => (
@@ -24,6 +25,9 @@ export default ({ signOut }) => (
       </Route>
       <Route path="/moments">
         <MomentsScreen />
+      </Route>
+      <Route path="/edit">
+        <EditMomentScreen />
       </Route>
       <Route path="/new">
         <NewMomentScreen />

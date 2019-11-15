@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import CreatableSelect from "react-select/creatable";
-import { Link, useHistory } from "react-router-dom";
-import { saveNewMoment, getDocs } from "../store";
+import { Link } from "react-router-dom";
+import { getDocs } from "../../store";
 import { X, Calendar, Users, MapPin, Tag } from "react-feather";
-import PageLoader from "./components/PageLoader";
+import PageLoader from "./PageLoader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./NewMoment.css";
+import "./MomentForm.css";
 
 const noOptionsMessage = () => null;
 const isValidNewOption = inputValue => inputValue.length > 2;
@@ -58,13 +58,14 @@ const FormItem = ({ icon, handleChange, options, label }) => (
   </div>
 );
 
-export default function NewMoment() {
-  const history = useHistory();
+export default function MomentForm({ title, onSave, moment }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [date, setDate] = useState(today);
-  const [people, setPeople] = useState(null);
-  const [places, setPlaces] = useState(null);
-  const [activities, setActivities] = useState(null);
+  const [date, setDate] = useState(moment ? new Date(moment.date) : today);
+  const [people, setPeople] = useState(moment ? moment.people : null);
+  const [places, setPlaces] = useState(moment ? moment.places : null);
+  const [activities, setActivities] = useState(
+    moment ? moment.activities : null
+  );
   const [personOptions, setPersonOptions] = useState([]);
   const [placeOptions, setPlaceOptions] = useState([]);
   const [activityOptions, setActivityOptions] = useState([]);
@@ -77,17 +78,15 @@ export default function NewMoment() {
   const handlePeopleChange = newValue => setPeople(newValue);
   const handlePlacesChange = newValue => setPlaces(newValue);
   const handleActivitiesChange = newValue => setActivities(newValue);
-  function addNewMoment() {
+  function save() {
     setIsLoading(true);
-    saveNewMoment(date, people, places, activities).then(() =>
-      history.push("/")
-    );
+    onSave(date, people, places, activities);
   }
-  if (isLoading) return <PageLoader title="New Moment" />;
+  if (isLoading) return <PageLoader title={title} />;
   return (
     <main>
       <header>
-        <h1>New Moment</h1>
+        <h1>{title}</h1>
         <Link to="/" className="header-link">
           <X />
         </Link>
@@ -130,7 +129,7 @@ export default function NewMoment() {
       </section>
       <footer>
         <button
-          onClick={addNewMoment}
+          onClick={save}
           className="primary-action save"
           disabled={people === null && places === null && activities === null}
         >

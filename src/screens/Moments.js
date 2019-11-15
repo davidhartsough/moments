@@ -41,7 +41,7 @@ function MomentList({ type, q }) {
         {moments.length} result{moments.length > 1 && "s"} for: "{q}"
       </h2>
       {moments.map(m => (
-        <Moment key={m.id} moment={m.data()} />
+        <Moment key={m.id} id={m.id} moment={m.data()} />
       ))}
     </>
   );

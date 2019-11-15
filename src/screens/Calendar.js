@@ -34,7 +34,7 @@ export default function Calendar() {
           {isLoading ? (
             <Loader />
           ) : moments.length > 0 ? (
-            moments.map(m => <Moment key={m.id} moment={m.data()} />)
+            moments.map(m => <Moment key={m.id} id={m.id} moment={m.data()} />)
           ) : (
             <p className="empty">No moments found for this month.</p>
           )}

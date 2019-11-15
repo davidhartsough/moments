@@ -103,13 +103,19 @@ function incrementItemCount(cName, id) {
     all[cName][index].count += 1;
   }
 }
+function decrementItemCount(cName, id) {
+  if (all[cName]) {
+    const index = all[cName].findIndex(i => i.id === id);
+    all[cName][index].count -= 1;
+  }
+}
 const date = new Date();
 const currentMonthNumber = date.getMonth() + 1;
 const currentYear = date.getFullYear();
 const currentMonth = `${currentYear}-${currentMonthNumber}`;
 const compareMomentDocs = (a, b) => {
-  if (a.data().date > b.data().date) return 1;
-  if (a.data().date < b.data().date) return -1;
+  if (a.data().date < b.data().date) return 1;
+  if (a.data().date > b.data().date) return -1;
   return 0;
 };
 function addNewMomentToStore(id, newMoment) {
@@ -131,9 +137,13 @@ function addNewMomentToStore(id, newMoment) {
     momentsByMonth.month = null;
   }
 }
-function resetMoments() {
+function resetMoments(resetAll = false) {
   momentsByQuery.type = null;
   momentsByQuery.query = null;
+  if (resetAll) {
+    momentsByMonth.month = null;
+    setMomentToEdit(null, null);
+  }
 }
 export function saveNewMoment(
   dateInput,
@@ -185,4 +195,94 @@ export function saveNewMoment(
       resetMoments();
     })
     .catch(err => console.error("Error adding moment: ", err));
+}
+
+const momentToEdit = {
+  id: null,
+  moment: null
+};
+
+export function setMomentToEdit(id, moment) {
+  momentToEdit.id = id;
+  momentToEdit.moment = moment;
+}
+
+export function getMomentToEdit() {
+  return momentToEdit;
+}
+
+export function updateMoment(
+  dateInput,
+  peopleInput,
+  placesInput,
+  activitiesInput
+) {
+  const { id, moment } = momentToEdit;
+  if (id === null) {
+    return new Promise((_, reject) =>
+      reject("No moment id found. Unable to edit.")
+    );
+  }
+  const newMoment = {
+    date: dateInput.toISOString().substring(0, 10),
+    people: peopleInput ? peopleInput.map(p => p.label) : [],
+    places: placesInput ? placesInput.map(p => p.label) : [],
+    activities: activitiesInput ? activitiesInput.map(a => a.label) : []
+  };
+  console.log(id, newMoment);
+  const inputs = {
+    people: peopleInput || [],
+    places: placesInput || [],
+    activities: activitiesInput || []
+  };
+  for (const [key, value] of Object.entries(inputs)) {
+    for (const item of value) {
+      if (item.__isNew__) {
+        const newDoc = {
+          uid,
+          name: item.value,
+          count: 1
+        };
+        db.collection(key)
+          .add(newDoc)
+          .then(({ id }) => addToStore(key, newDoc, id))
+          .catch(err => console.error("db add error: ", err));
+      } else {
+        if (!moment[key].includes(item.label)) {
+          const docRef = db.collection(key).doc(item.value);
+          db.runTransaction(ta =>
+            ta
+              .get(docRef)
+              .then(doc => ta.update(docRef, { count: doc.data().count + 1 }))
+          )
+            .then(() => incrementItemCount(key, item.value))
+            .catch(err => console.error("Transaction failed: ", err));
+        }
+      }
+    }
+    const itemsToDecrement = moment[key].filter(i => !inputs[key].includes(i));
+    if (itemsToDecrement.length) {
+      for (const item of itemsToDecrement) {
+        const itemId = all[key].find(i => i.name === item.label).id;
+        const docRef = db.collection(key).doc(itemId);
+        db.runTransaction(ta =>
+          ta
+            .get(docRef)
+            .then(doc => ta.update(docRef, { count: doc.data().count - 1 }))
+        )
+          .then(() => decrementItemCount(key, itemId))
+          .catch(err => console.error("Transaction failed: ", err));
+      }
+    }
+  }
+  return db
+    .collection("moments")
+    .doc(id)
+    .set(newMoment)
+    .then(() => resetMoments(true))
+    .catch(err => console.error("Error adding moment: ", err));
+}
+
+export function deleteMoment(id, moment) {
+  console.log("we gonna delete this: ", id);
 }

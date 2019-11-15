@@ -18,15 +18,22 @@ select {
   box-sizing: border-box;
   font-weight: 400;
   width: 7rem;
+  cursor: pointer;
 }
 .month-nav {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 0.5rem;
+  cursor: pointer;
+  color: #555;
+}
+.month-nav:hover {
+  color: #000;
 }
 .month-nav.disabled {
   color: #eee;
+  cursor: default;
 }
 .month-list {
   margin-bottom: 8rem;
