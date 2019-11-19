@@ -28,8 +28,9 @@
   min-width: 300px;
   max-width: 600px;
   margin: 0 auto 3rem;
-  font-size: 97px;
-  font-weight: 200;
+  font-family: sans-serif;
+  font-size: 89px;
+  font-weight: 300;
   fill: #fff;
 }
 #splash-logo path {
