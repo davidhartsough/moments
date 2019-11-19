@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CreatableSelect from "react-select/creatable";
 import { Link } from "react-router-dom";
-import { getDocs } from "../../store";
+import { getDocs, getMomentToEdit } from "../../store";
 import { X, Calendar, Users, MapPin, Tag } from "react-feather";
 import PageLoader from "./PageLoader";
 import DatePicker from "react-datepicker";
@@ -36,7 +36,7 @@ const selectStyles = {
   })
 };
 
-const FormItem = ({ icon, handleChange, options, label }) => (
+const FormItem = ({ icon, handleChange, options, values, label }) => (
   <div className="form-group">
     <div className="label">
       {icon}
@@ -47,6 +47,7 @@ const FormItem = ({ icon, handleChange, options, label }) => (
         isMulti
         onChange={handleChange}
         options={options}
+        value={values}
         placeholder={`Add ${label}`}
         noOptionsMessage={noOptionsMessage}
         isValidNewOption={isValidNewOption}
@@ -58,22 +59,33 @@ const FormItem = ({ icon, handleChange, options, label }) => (
   </div>
 );
 
-export default function MomentForm({ title, onSave, moment }) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [date, setDate] = useState(moment ? new Date(moment.date) : today);
-  const [people, setPeople] = useState(moment ? moment.people : null);
-  const [places, setPlaces] = useState(moment ? moment.places : null);
-  const [activities, setActivities] = useState(
-    moment ? moment.activities : null
-  );
+export default function MomentForm({ onSave, isEdit = false }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [date, setDate] = useState(today);
+  const [people, setPeople] = useState(null);
+  const [places, setPlaces] = useState(null);
+  const [activities, setActivities] = useState(null);
   const [personOptions, setPersonOptions] = useState([]);
   const [placeOptions, setPlaceOptions] = useState([]);
   const [activityOptions, setActivityOptions] = useState([]);
   useEffect(() => {
-    getDocs("people").then(docs => setPersonOptions(getOptions(docs)));
-    getDocs("places").then(docs => setPlaceOptions(getOptions(docs)));
-    getDocs("activities").then(docs => setActivityOptions(getOptions(docs)));
-  }, []);
+    const promises = ["people", "places", "activities"].map(t => getDocs(t));
+    Promise.all(promises)
+      .then(tdocs => {
+        setPersonOptions(getOptions(tdocs[0]));
+        setPlaceOptions(getOptions(tdocs[1]));
+        setActivityOptions(getOptions(tdocs[2]));
+        if (isEdit) {
+          const { moment, docs } = getMomentToEdit(true);
+          setDate(new Date(moment.date));
+          setPeople(getOptions(docs.people));
+          setPlaces(getOptions(docs.places));
+          setActivities(getOptions(docs.activities));
+        }
+        setIsLoading(false);
+      })
+      .catch(error => console.error(error));
+  }, [isEdit]);
   const onDateChange = dateInput => setDate(dateInput);
   const handlePeopleChange = newValue => setPeople(newValue);
   const handlePlacesChange = newValue => setPlaces(newValue);
@@ -82,6 +94,7 @@ export default function MomentForm({ title, onSave, moment }) {
     setIsLoading(true);
     onSave(date, people, places, activities);
   }
+  const title = `${isEdit ? "Edit" : "New"} Moment`;
   if (isLoading) return <PageLoader title={title} />;
   return (
     <main>
@@ -112,18 +125,21 @@ export default function MomentForm({ title, onSave, moment }) {
             label="people"
             handleChange={handlePeopleChange}
             options={personOptions}
+            values={people}
           />
           <FormItem
             icon={<MapPin size={20} className="label-icon" />}
             label="places"
             handleChange={handlePlacesChange}
             options={placeOptions}
+            values={places}
           />
           <FormItem
             icon={<Tag size={20} className="label-icon" />}
             label="activities"
             handleChange={handleActivitiesChange}
             options={activityOptions}
+            values={activities}
           />
         </div>
       </section>
@@ -131,7 +147,7 @@ export default function MomentForm({ title, onSave, moment }) {
         <button
           onClick={save}
           className="primary-action save"
-          disabled={people === null && places === null && activities === null}
+          disabled={!people && !places && !activities}
         >
           Save
         </button>

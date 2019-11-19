@@ -20,6 +20,10 @@ select {
   width: 7rem;
   cursor: pointer;
 }
+select:hover {
+  border-color: hsl(208, 16%, 72%);
+  background-color: #fcfcfd;
+}
 .month-nav {
   display: flex;
   justify-content: center;

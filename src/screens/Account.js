@@ -23,7 +23,11 @@ export default function Account({ signOut }) {
       </header>
       <section id="account-profile">
         <p>You are currently logged in as:</p>
-        <h2 id="profile-name">The Amazing {profile.name}</h2>
+        {profile.name ? (
+          <h2 id="profile-name">The Amazing {profile.name}</h2>
+        ) : (
+          <h2 id="profile-name">{profile.email}</h2>
+        )}
       </section>
       <footer>
         <button onClick={signOut} className="primary-action" id="sign-out">

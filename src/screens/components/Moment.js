@@ -6,6 +6,7 @@ import "./Moment.css";
 
 export default ({ id, moment }) => {
   const history = useHistory();
+  const [isDeleted, setIsDeleted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const open = e => {
     setIsOpen(true);
@@ -19,8 +20,9 @@ export default ({ id, moment }) => {
   }
   function onDelete() {
     deleteMoment(id, moment);
-    console.log("delete moment: ", id);
+    setIsDeleted(true);
   }
+  if (isDeleted) return null;
   return (
     <div className="moment" onClick={close}>
       <div className="row">

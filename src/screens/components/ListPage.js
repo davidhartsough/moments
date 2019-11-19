@@ -19,14 +19,23 @@ function DataList({ data, plural, singular }) {
 
 export default function ListPage({ plural, singular }) {
   const [data, setData] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    getDocs(plural).then(docs => setData(docs));
+    setIsLoading(true);
+    getDocs(plural).then(docs => {
+      setData(docs);
+      setIsLoading(false);
+    });
   }, [plural]);
   return (
     <main>
       <Header title={plural} />
       <section>
-        <DataList data={data} plural={plural} singular={singular} />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <DataList data={data} plural={plural} singular={singular} />
+        )}
       </section>
     </main>
   );

@@ -107,6 +107,9 @@ function decrementItemCount(cName, id) {
   if (all[cName]) {
     const index = all[cName].findIndex(i => i.id === id);
     all[cName][index].count -= 1;
+    if (all[cName][index].count < 1) {
+      all[cName].splice(index, 1);
+    }
   }
 }
 const date = new Date();
@@ -199,7 +202,12 @@ export function saveNewMoment(
 
 const momentToEdit = {
   id: null,
-  moment: null
+  moment: null,
+  docs: {
+    people: null,
+    places: null,
+    activities: null
+  }
 };
 
 export function setMomentToEdit(id, moment) {
@@ -207,7 +215,14 @@ export function setMomentToEdit(id, moment) {
   momentToEdit.moment = moment;
 }
 
-export function getMomentToEdit() {
+export function getMomentToEdit(full = false) {
+  if (full) {
+    ["people", "places", "activities"].forEach(type => {
+      momentToEdit.docs[type] = momentToEdit.moment[type].map(td =>
+        all[type].find(d => d.name === td)
+      );
+    });
+  }
   return momentToEdit;
 }
 
@@ -229,7 +244,6 @@ export function updateMoment(
     places: placesInput ? placesInput.map(p => p.label) : [],
     activities: activitiesInput ? activitiesInput.map(a => a.label) : []
   };
-  console.log(id, newMoment);
   const inputs = {
     people: peopleInput || [],
     places: placesInput || [],
@@ -247,23 +261,23 @@ export function updateMoment(
           .add(newDoc)
           .then(({ id }) => addToStore(key, newDoc, id))
           .catch(err => console.error("db add error: ", err));
-      } else {
-        if (!moment[key].includes(item.label)) {
-          const docRef = db.collection(key).doc(item.value);
-          db.runTransaction(ta =>
-            ta
-              .get(docRef)
-              .then(doc => ta.update(docRef, { count: doc.data().count + 1 }))
-          )
-            .then(() => incrementItemCount(key, item.value))
-            .catch(err => console.error("Transaction failed: ", err));
-        }
+      } else if (!moment[key].includes(item.label)) {
+        const docRef = db.collection(key).doc(item.value);
+        db.runTransaction(ta =>
+          ta
+            .get(docRef)
+            .then(doc => ta.update(docRef, { count: doc.data().count + 1 }))
+        )
+          .then(() => incrementItemCount(key, item.value))
+          .catch(err => console.error("Transaction failed: ", err));
       }
     }
-    const itemsToDecrement = moment[key].filter(i => !inputs[key].includes(i));
+    const itemsToDecrement = moment[key].filter(
+      i => !newMoment[key].includes(i)
+    );
     if (itemsToDecrement.length) {
       for (const item of itemsToDecrement) {
-        const itemId = all[key].find(i => i.name === item.label).id;
+        const itemId = all[key].find(i => i.name === item).id;
         const docRef = db.collection(key).doc(itemId);
         db.runTransaction(ta =>
           ta
@@ -278,11 +292,59 @@ export function updateMoment(
   return db
     .collection("moments")
     .doc(id)
-    .set(newMoment)
+    .update(newMoment)
     .then(() => resetMoments(true))
     .catch(err => console.error("Error adding moment: ", err));
 }
 
+function removeMomentFromStore(id) {
+  if (momentsByMonth.moments) {
+    const momentIndex = momentsByMonth.moments.findIndex(m => m.id === id);
+    if (momentIndex >= 0) {
+      momentsByMonth.moments.splice(momentIndex, 1);
+    }
+  }
+  if (momentsByQuery.moments) {
+    const mIndex = momentsByQuery.moments.findIndex(m => m.id === id);
+    if (mIndex >= 0) {
+      momentsByQuery.moments.splice(mIndex, 1);
+    }
+  }
+  return id;
+}
+
 export function deleteMoment(id, moment) {
-  console.log("we gonna delete this: ", id);
+  ["people", "places", "activities"].forEach(key => {
+    moment[key].forEach(item => {
+      db.collection(key)
+        .where("uid", "==", uid)
+        .where("name", "==", item)
+        .get()
+        .then(({ docs }) => {
+          const doc = docs[0];
+          const count = doc.data().count - 1;
+          if (count < 1) {
+            return db
+              .collection(key)
+              .doc(doc.id)
+              .delete()
+              .then(() => decrementItemCount(key, doc.id))
+              .catch(err => console.error("Update failed: ", err));
+          }
+          return db
+            .collection(key)
+            .doc(doc.id)
+            .update({ count })
+            .then(() => decrementItemCount(key, doc.id))
+            .catch(err => console.error("Update failed: ", err));
+        })
+        .catch(err => console.error("Get failed: ", err));
+    });
+  });
+  return db
+    .collection("moments")
+    .doc(id)
+    .delete()
+    .then(() => removeMomentFromStore(id))
+    .catch(err => console.error("Delete failed: ", err));
 }

@@ -14,6 +14,9 @@
   background: #9e9e9e;
   cursor: not-allowed;
 }
+.save:disabled:hover {
+  background: #9e9e9e;
+}
 
 .react-datepicker-wrapper {
   display: block;
