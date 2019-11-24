@@ -6,26 +6,12 @@ import "./SignIn.css";
 
 export default function SignIn() {
   const uiConfig = {
-    callbacks: {
-      signInSuccessWithAuthResult: function(authResult) {
-        const { user } = authResult;
-        const { isNewUser } = authResult.additionalUserInfo;
-        console.group("sign in success");
-        console.log(authResult);
-        console.log(user);
-        console.log("uid: ", user.uid);
-        console.log("displayName: ", user.displayName);
-        console.log("isNewUser: ", isNewUser);
-        console.groupEnd();
-        // return true;
-        return false;
-      }
-    },
+    signInSuccessUrl: "/",
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebase.auth.EmailAuthProvider.PROVIDER_ID
-      // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-      // firebase.auth.TwitterAuthProvider.PROVIDER_ID
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      firebase.auth.TwitterAuthProvider.PROVIDER_ID
     ]
   };
   return (

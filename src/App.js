@@ -11,7 +11,10 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const signIn = () => setIsSignedIn(true);
-  const signOut = () => setIsSignedIn(false);
+  function signOut() {
+    setIsSignedIn(false);
+    firebase.auth().signOut();
+  }
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
