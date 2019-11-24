@@ -4,6 +4,13 @@ import { Calendar, Users, MapPin, Tag, MoreVertical } from "react-feather";
 import { setMomentToEdit, deleteMoment } from "../../store";
 import "./Moment.css";
 
+const options = {
+  timeZone: "UTC",
+  weekday: "long",
+  month: "short",
+  day: "numeric"
+};
+
 export default ({ id, moment }) => {
   const history = useHistory();
   const [isDeleted, setIsDeleted] = useState(false);
@@ -27,7 +34,9 @@ export default ({ id, moment }) => {
     <div className="moment" onClick={close}>
       <div className="row">
         <Calendar className="row-icon" />
-        <p className="row-text">{new Date(date).toLocaleDateString()}</p>
+        <p className="row-text">
+          {new Date(date).toLocaleDateString(undefined, options)}
+        </p>
       </div>
       {!!people.length && (
         <div className="row">
