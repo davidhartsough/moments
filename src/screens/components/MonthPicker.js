@@ -25,7 +25,7 @@ const monthOptions = months
     label: `${m} ${currentYear}`
   }))
   .reverse();
-for (let year = currentYear - 1; year >= 1920; year--) {
+for (let year = currentYear - 1; year >= 1922; year--) {
   for (let i = 11; i >= 0; i--) {
     monthOptions.push({
       value: `${year}-${i + 1}`,

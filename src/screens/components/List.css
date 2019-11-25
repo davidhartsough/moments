@@ -13,22 +13,8 @@
   align-items: center;
 }
 .search-input {
-  outline: none;
-  width: 100%;
-  height: 2rem;
-  padding: 0 0.5rem 0 2.25rem;
-  background-color: #fff;
-  border: 1px solid hsl(0, 0%, 80%);
-  border-radius: 0.25rem;
-  display: block;
-  font-size: 1rem;
-}
-.search-input:hover {
-  border-color: hsl(0, 0%, 70%);
-}
-.search-input:active,
-.search-input:focus {
-  border-color: #198bed;
+  padding-left: 2.25rem;
+  -webkit-appearance: textfield;
 }
 .table {
   border: 1px solid rgba(0, 0, 0, 0.2);

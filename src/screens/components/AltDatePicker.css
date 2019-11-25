@@ -1,0 +1,6 @@
+.DayPickerInput {
+  display: block;
+}
+.DayPicker-Day--today {
+  color: #01447e;
+}

@@ -4,14 +4,26 @@ import { Link } from "react-router-dom";
 import { getDocs, getMomentToEdit } from "../../store";
 import { X, Calendar, Users, MapPin, Tag } from "react-feather";
 import PageLoader from "./PageLoader";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import AltDatePicker from "./AltDatePicker";
 import "./MomentForm.css";
+
+const testDateInputElement = document.createElement("input");
+testDateInputElement.type = "date";
+testDateInputElement.value = "stupid";
+const isStupid = testDateInputElement.value === "stupid";
+function pad(num) {
+  const norm = Math.floor(Math.abs(num));
+  return (norm < 10 ? "0" : "") + norm;
+}
+const toISO = date =>
+  `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+const todayDate = new Date();
+const today = toISO(todayDate);
+const min = "1922-02-02";
+const before = new Date(min);
 
 const noOptionsMessage = () => null;
 const isValidNewOption = inputValue => inputValue.length > 2;
-const today = new Date();
-const minDate = new Date("1920-01-02");
 
 function getOptions(docs) {
   return docs.map(doc => ({
@@ -77,7 +89,7 @@ export default function MomentForm({ onSave, isEdit = false }) {
         setActivityOptions(getOptions(tdocs[2]));
         if (isEdit) {
           const { moment, docs } = getMomentToEdit(true);
-          setDate(new Date(moment.date));
+          setDate(moment.date);
           setPeople(getOptions(docs.people));
           setPlaces(getOptions(docs.places));
           setActivities(getOptions(docs.activities));
@@ -86,7 +98,7 @@ export default function MomentForm({ onSave, isEdit = false }) {
       })
       .catch(error => console.error(error));
   }, [isEdit]);
-  const onDateChange = dateInput => setDate(dateInput);
+  const onDateInputChange = ({ target }) => setDate(target.value);
   const handlePeopleChange = newValue => setPeople(newValue);
   const handlePlacesChange = newValue => setPlaces(newValue);
   const handleActivitiesChange = newValue => setActivities(newValue);
@@ -111,14 +123,23 @@ export default function MomentForm({ onSave, isEdit = false }) {
               <Calendar size={20} className="label-icon" />
               <h3>Date</h3>
             </div>
-            <DatePicker
-              selected={date}
-              onChange={onDateChange}
-              placeholderText="Select a date"
-              maxDate={today}
-              minDate={minDate}
-              className="date-picker-input"
-            />
+            {isStupid ? (
+              <AltDatePicker
+                date={date}
+                after={todayDate}
+                before={before}
+                setDate={setDate}
+              />
+            ) : (
+              <input
+                type="date"
+                value={date}
+                max={today}
+                min={min}
+                onChange={onDateInputChange}
+                id="date-input"
+              />
+            )}
           </div>
           <FormItem
             icon={<Users size={20} className="label-icon" />}

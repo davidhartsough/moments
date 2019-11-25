@@ -185,7 +185,7 @@ export function saveNewMoment(
   }
   const newMoment = {
     uid,
-    date: dateInput.toISOString().substring(0, 10),
+    date: dateInput,
     people: peopleInput ? peopleInput.map(p => p.label) : [],
     places: placesInput ? placesInput.map(p => p.label) : [],
     activities: activitiesInput ? activitiesInput.map(a => a.label) : []
@@ -239,7 +239,7 @@ export function updateMoment(
     );
   }
   const newMoment = {
-    date: dateInput.toISOString().substring(0, 10),
+    date: dateInput,
     people: peopleInput ? peopleInput.map(p => p.label) : [],
     places: placesInput ? placesInput.map(p => p.label) : [],
     activities: activitiesInput ? activitiesInput.map(a => a.label) : []
