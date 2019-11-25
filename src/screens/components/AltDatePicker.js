@@ -9,7 +9,6 @@ export default function AltDatePicker({ date, before, after, setDate }) {
   const [day, setDay] = useState(date);
   function onDayChange(day) {
     const iso = convertToISO(day);
-    console.log(iso);
     setDay(iso);
     setDate(iso);
   }
