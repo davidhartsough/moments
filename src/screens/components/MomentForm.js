@@ -182,7 +182,7 @@ export default function MomentForm({ onSave, isEdit = false }) {
         <button
           onClick={save}
           className="primary-action save"
-          disabled={!people && !places && !activities}
+          disabled={!date || (!people && !places && !activities)}
         >
           Save
         </button>
