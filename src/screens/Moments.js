@@ -22,6 +22,16 @@ function Page({ children }) {
   );
 }
 
+function sortByDate(a, b) {
+  if (a.data().date > b.data().date) {
+    return -1;
+  } else if (a.data().date < b.data().date) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
 function MomentList({ type, q }) {
   const [moments, setMoments] = useState(false);
   useEffect(() => {
@@ -35,6 +45,7 @@ function MomentList({ type, q }) {
       </p>
     );
   }
+  moments.sort(sortByDate);
   return (
     <>
       <h2>
