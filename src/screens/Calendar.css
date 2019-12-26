@@ -42,3 +42,20 @@ select:hover {
 .month-list {
   margin-bottom: 8rem;
 }
+.day-header {
+  position: relative;
+  text-align: center;
+}
+.day-title {
+  display: inline-block;
+  background-color: hsl(208, 8%, 99%);
+  position: relative;
+  padding: 0.25rem 0.75rem;
+}
+.day-divider {
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  right: 0;
+  margin: 0;
+}

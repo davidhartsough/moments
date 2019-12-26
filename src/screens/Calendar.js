@@ -9,6 +9,42 @@ import MonthPicker from "./components/MonthPicker";
 import { getMomentsByMonth } from "../store";
 import "./Calendar.css";
 
+const options = {
+  timeZone: "UTC",
+  weekday: "long",
+  month: "short",
+  day: "numeric"
+};
+function getDayString(date) {
+  return new Date(date).toLocaleDateString(undefined, options);
+}
+
+const Day = ({ day, moments }) => (
+  <div className="day">
+    <div className="day-header">
+      <hr className="day-divider" />
+      <h3 className="day-title">{getDayString(day)}</h3>
+    </div>
+    {moments.map(m => (
+      <Moment key={m.id} id={m.id} moment={m.data()} showDate={false} />
+    ))}
+  </div>
+);
+
+function MomentsByDay({ moments }) {
+  const days = {};
+  moments.forEach(m => {
+    if (Array.isArray(days[m.data().date])) {
+      days[m.data().date].push(m);
+    } else {
+      days[m.data().date] = [m];
+    }
+  });
+  return Object.entries(days).map(day => (
+    <Day day={day[0]} key={day[0]} moments={day[1]} />
+  ));
+}
+
 const date = new Date();
 const currentMonthNumber = date.getMonth() + 1;
 const currentYear = date.getFullYear();
@@ -34,7 +70,7 @@ export default function Calendar() {
           {isLoading ? (
             <Loader />
           ) : moments.length > 0 ? (
-            moments.map(m => <Moment key={m.id} id={m.id} moment={m.data()} />)
+            <MomentsByDay moments={moments} />
           ) : (
             <p className="empty">No moments found for this month.</p>
           )}

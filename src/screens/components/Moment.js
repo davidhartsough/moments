@@ -10,8 +10,11 @@ const options = {
   month: "short",
   day: "numeric"
 };
+function getDayString(date) {
+  return new Date(date).toLocaleDateString(undefined, options);
+}
 
-export default ({ id, moment }) => {
+export default ({ id, moment, showDate }) => {
   const history = useHistory();
   const [isDeleted, setIsDeleted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -32,12 +35,12 @@ export default ({ id, moment }) => {
   if (isDeleted) return null;
   return (
     <div className="moment" onClick={close}>
-      <div className="row">
-        <Calendar className="row-icon" />
-        <p className="row-text">
-          {new Date(date).toLocaleDateString(undefined, options)}
-        </p>
-      </div>
+      {showDate && (
+        <div className="row">
+          <Calendar className="row-icon" />
+          <p className="row-text">{getDayString(date)}</p>
+        </div>
+      )}
       {!!people.length && (
         <div className="row">
           <Users className="row-icon" />
