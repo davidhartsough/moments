@@ -112,17 +112,13 @@ function decrementItemCount(cName, id) {
     }
   }
 }
-const date = new Date();
-const currentMonthNumber = date.getMonth() + 1;
-const currentYear = date.getFullYear();
-const currentMonth = `${currentYear}-${currentMonthNumber}`;
 const compareMomentDocs = (a, b) => {
   if (a.data().date < b.data().date) return 1;
   if (a.data().date > b.data().date) return -1;
   return 0;
 };
 function addNewMomentToStore(id, newMoment) {
-  if (momentsByMonth.month === currentMonth) {
+  if (momentsByMonth.month === newMoment.date.substr(0, 7)) {
     const moment = {
       id,
       data: () => newMoment

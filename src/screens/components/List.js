@@ -63,7 +63,7 @@ export default function List({ items, type }) {
         <input
           type="search"
           placeholder="Search"
-          className="search-input"
+          id="search-input"
           maxLength="120"
           value={search}
           onChange={handleSearch}

@@ -33,9 +33,9 @@ function getOptions(docs) {
 }
 
 const selectStyles = {
-  multiValue: styles => ({
+  multiValue: (styles, state) => ({
     ...styles,
-    backgroundColor: "#ededed",
+    backgroundColor: state.isFocused ? "#d6ebff" : "#ededed",
     height: "22px"
   }),
   multiValueLabel: styles => ({
@@ -44,32 +44,46 @@ const selectStyles = {
     fontSize: "0.875rem",
     lineHeight: "22px",
     padding: "0 1px",
-    paddingLeft: "7px"
+    paddingLeft: "7px",
+    paddingRight: "7px"
   })
 };
 
-const FormItem = ({ icon, handleChange, options, values, label }) => (
-  <div className="form-group">
-    <div className="label">
-      {icon}
-      <h3>{label}</h3>
+const components = {
+  DropdownIndicator: null,
+  MultiValueRemove: () => null
+};
+
+function FormItem({ icon, handleChange, options, values, label }) {
+  const [inputValue, setInputValue] = useState("");
+  return (
+    <div className="form-group">
+      <div className="label">
+        {icon}
+        <h3>{label}</h3>
+      </div>
+      <div className="input">
+        <CreatableSelect
+          isMulti
+          onChange={handleChange}
+          options={options}
+          value={values}
+          placeholder={`Add ${label}`}
+          noOptionsMessage={noOptionsMessage}
+          isValidNewOption={isValidNewOption}
+          maxMenuHeight={160}
+          isClearable={false}
+          styles={selectStyles}
+          components={components}
+          menuIsOpen={inputValue.length > 1}
+          blurInputOnSelect={false}
+          inputValue={inputValue}
+          onInputChange={setInputValue}
+        />
+      </div>
     </div>
-    <div className="input">
-      <CreatableSelect
-        isMulti
-        onChange={handleChange}
-        options={options}
-        value={values}
-        placeholder={`Add ${label}`}
-        noOptionsMessage={noOptionsMessage}
-        isValidNewOption={isValidNewOption}
-        maxMenuHeight={160}
-        isClearable={false}
-        styles={selectStyles}
-      />
-    </div>
-  </div>
-);
+  );
+}
 
 export default function MomentForm({ onSave, isEdit = false }) {
   const [isLoading, setIsLoading] = useState(true);
