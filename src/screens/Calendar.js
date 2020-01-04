@@ -46,13 +46,14 @@ function MomentsByDay({ moments }) {
 }
 
 const date = new Date();
-const currentMonthNumber = date.getMonth() + 1;
+const monthNum = date.getMonth() + 1;
+const currentMonth = monthNum < 10 ? `0${monthNum}` : monthNum;
 const currentYear = date.getFullYear();
 
 export default function Calendar() {
   const [isLoading, setIsLoading] = useState(true);
   const [moments, setMoments] = useState(false);
-  const [month, setMonth] = useState(`${currentYear}-${currentMonthNumber}`);
+  const [month, setMonth] = useState(`${currentYear}-${currentMonth}`);
   useEffect(() => {
     setIsLoading(true);
     getMomentsByMonth(month).then(result => {
