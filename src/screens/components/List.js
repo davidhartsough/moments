@@ -18,8 +18,8 @@ function compareNameDesc(a, b) {
 
 export default function List({ items, type }) {
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("name");
-  const [ascending, setAscending] = useState(true);
+  const [sort, setSort] = useState("count");
+  const [ascending, setAscending] = useState(false);
   function sortByName() {
     if (sort === "name") {
       setAscending(!ascending);
