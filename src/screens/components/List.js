@@ -39,6 +39,7 @@ export default function List({ items, type }) {
   const handleSearch = ({ target }) => setSearch(target.value);
   const query = search.trim().toUpperCase();
   let listItems = items;
+  listItems = listItems.filter(({ count }) => count > 0);
   if (query.length > 1) {
     listItems = items.filter(p => p.name.toUpperCase().includes(query));
   }
