@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import CreatableSelect from "react-select/creatable";
 import Label from "./Label";
 const noOptionsMessage = () => null;
-const isValidNewOption = inputValue => inputValue.length > 2;
 
 const selectStyles = {
   multiValue: (styles, state) => ({
@@ -26,9 +25,21 @@ const components = {
   MultiValueRemove: () => null
 };
 
-export default function FormItem({ icon, setValues, options, values, label }) {
+export default function FormItem({
+  icon,
+  setValues,
+  options,
+  values,
+  label,
+  upperCaseOptions
+}) {
   const [inputValue, setInputValue] = useState("");
   const onChange = newValue => setValues(newValue || []);
+  function isValidNewOption(inputValue) {
+    const isLongEnough = inputValue.length > 2;
+    const isInOptions = upperCaseOptions.includes(inputValue.toUpperCase());
+    return isLongEnough && !isInOptions;
+  }
   return (
     <div className="form-group">
       <Label icon={icon} label={label} />

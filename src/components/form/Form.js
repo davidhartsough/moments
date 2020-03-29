@@ -20,6 +20,9 @@ function getOptions(i) {
     value: id
   }));
 }
+function getUpperCaseOptions(i) {
+  return i.map(({ name }) => name.toUpperCase());
+}
 // const getOptions = ({ data }) => data.map(({ name }) => name);
 
 function Form({
@@ -99,6 +102,7 @@ function Form({
           label="people"
           setValues={setPeople}
           options={getOptions(_people.data)}
+          upperCaseOptions={getUpperCaseOptions(_people.data)}
           values={people}
         />
         <FormItem
@@ -106,6 +110,7 @@ function Form({
           label="places"
           setValues={setPlaces}
           options={getOptions(_places.data)}
+          upperCaseOptions={getUpperCaseOptions(_places.data)}
           values={places}
         />
         <FormItem
@@ -113,6 +118,7 @@ function Form({
           label="activities"
           setValues={setActivities}
           options={getOptions(_activities.data)}
+          upperCaseOptions={getUpperCaseOptions(_activities.data)}
           values={activities}
         />
       </div>
