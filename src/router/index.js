@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import {
   Calendar,
   Moments,
@@ -38,6 +38,9 @@ export default () => (
       </Route>
       <Route path="/account">
         <Account />
+      </Route>
+      <Route path="*">
+        <Redirect to="/" />
       </Route>
     </Switch>
   </BrowserRouter>
