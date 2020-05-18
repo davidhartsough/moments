@@ -5,8 +5,8 @@ import storage from "redux-persist/lib/storage";
 import rootReducer from "./reducers";
 
 const persistConfig = {
-  key: "root",
-  storage
+  key: "moments_root",
+  storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
