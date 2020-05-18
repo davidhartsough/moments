@@ -20,7 +20,6 @@ export const auth = () => _auth;
 export const signInOptions = [
   firebase.auth.GoogleAuthProvider.PROVIDER_ID,
   firebase.auth.EmailAuthProvider.PROVIDER_ID,
-  firebase.auth.FacebookAuthProvider.PROVIDER_ID
 ];
 
 export const setUID = uid => {
