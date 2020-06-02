@@ -3,18 +3,13 @@
   "name": "Amazing Moments",
   "icons": [
     {
-      "src": "logo-192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo-512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
     }
   ],
-  "start_url": ".",
+  "theme_color": "#1471eb",
+  "background_color": "#1471eb",
   "display": "standalone",
-  "theme_color": "#198bed",
-  "background_color": "#fcfcfd"
+  "start_url": "."
 }
